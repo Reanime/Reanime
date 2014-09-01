@@ -1,0 +1,24 @@
+{
+  "name": "Reanime",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Reanime/Reanime",
+  "authors": [
+    "Anmo"
+  ],
+  "description": "A light&flexible lib to create games in JS",
+  "main": "lib/Reanime.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "Games"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

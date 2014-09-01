@@ -1,0 +1,45 @@
+{
+  "name": "Reanime",
+  "description": "A light&flexible lib to create games in JS",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Reanime/Reanime",
+  "author": {
+    "name": "Anmo",
+    "email": "btavares26@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Reanime/Reanime.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Reanime/Reanime/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/Reanime/Reanime/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "lib/Reanime.js",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
+    "test": "grunt nodeunit"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-watch": "~0.4.0",
+    "grunt-karma": "^0.8.3",
+    "karma": "^0.12.22",
+    "karma-coverage": "^0.2.6",
+    "karma-jasmine": "^0.2.2",
+    "karma-phantomjs-launcher": "^0.1.4"
+  },
+  "keywords": [
+    "Games"
+  ]
+}

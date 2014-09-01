@@ -1,0 +1,34 @@
+{
+  "name": "Reanime",
+  "version": "0.0.1",
+  "description": "A light&flexible lib to create games in JS",
+  "main": "lib/Game.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Reanime/Reanime.git"
+  },
+  "keywords": [
+    "Games"
+  ],
+  "author": "Anmo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Reanime/Reanime/issues"
+  },
+  "homepage": "https://github.com/Reanime/Reanime",
+  "devDependencies": {
+    "gulp": "^3.8.7",
+    "gulp-concat": "^2.3.4",
+    "gulp-jshint": "^1.8.4",
+    "gulp-karma": "0.0.4",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^0.3.1",
+    "karma": "^0.12.22",
+    "karma-coverage": "^0.2.6",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4"
+  }
+}
