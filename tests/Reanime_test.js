@@ -14,9 +14,17 @@
         el.dispatchEvent ? el.dispatchEvent( eventObj ) : el.fireEvent( 'on' + eventType , eventObj ); 
     };
 
+    var triggerMouseEvent = function( el , eventType ) {
+        var eventObj = document.createEvent( 'Events' );
+
+        eventObj.initEvent( eventType , true , false );
+
+        el.dispatchEvent( eventObj );
+    };
+
     var body = document.body;
 
-    describe( 'Testing Reanime' , function( ) {
+    describe( 'Testing Reanime\n\t' , function( ) {
         var game = new Reanime( );
         var obj;
 
@@ -63,22 +71,25 @@
         });
     });
 
-    describe( 'Testing key triggers' , function( ) {
+    describe( 'Testing key triggers\n\t' , function( ) {
         var game = new Reanime( );
         var obj;
 
         var timerCallback;
+        var flag;
 
         beforeEach(function( ) {
-            jasmine.Clock.useMock( );
-
             timerCallback = jasmine.createSpy( 'timerCallback' );
 
             obj = game.createObject( );
         });
 
         it( 'trigger start' , function( ) {
-            obj.action( 'testStart' , function( ) { timerCallback( ); });
+            obj.action( 'testStart' , function( ) {
+                flag = true;
+
+                timerCallback( );
+            });
             obj.action( 'testEnd' , function( ) { });
 
             obj.trigger({
@@ -88,18 +99,26 @@
                 ms      : 30
             });
 
-            expect( timerCallback ).not.toHaveBeenCalled( );
+            runs(function( ) {
+                flag = false;
 
-            triggerKeyboardEvent( window , 'keydown' , 16 );
+                triggerKeyboardEvent( window , 'keydown' , 16 );
 
-            jasmine.Clock.tick( 100 );
+                expect( timerCallback ).not.toHaveBeenCalled( );
+            });
 
-            expect( timerCallback ).toHaveBeenCalled( );
+            waitsFor(function( ) { return flag; } , 'start callback didn\'t run' , 60 );
+
+            runs(function( ) { expect( timerCallback ).toHaveBeenCalled( ); });
         });
 
         it( 'trigger end' , function( ) {
             obj.action( 'testStart' , function( ) { });
-            obj.action( 'testEnd' , function( ) { timerCallback( ); });
+            obj.action( 'testEnd' , function( ) {
+                flag = true;
+
+                timerCallback( );
+            });
 
             obj.trigger({
                 trigger : 16 ,
@@ -108,13 +127,87 @@
                 ms      : 30
             });
 
-            expect( timerCallback ).not.toHaveBeenCalled( );
+            runs(function( ) {
+                flag = false;
 
-            triggerKeyboardEvent( window , 'keyup' , 16 );
+                triggerKeyboardEvent( window , 'keyup' , 16 );
 
-            jasmine.Clock.tick( 300 );
+                expect( timerCallback ).not.toHaveBeenCalled( );
+            });
 
-            expect( timerCallback ).toHaveBeenCalled( );
+            waitsFor(function( ) { return flag; } , 'end callback didn\'t run' , 120 );
+
+            runs(function( ) { expect( timerCallback ).toHaveBeenCalled( ); });
+        });
+    });
+
+    describe( 'Testing elem triggers\n\t' , function( ) {
+        var game = new Reanime( );
+        var obj;
+
+        var timerCallback;
+        var flag;
+
+        beforeEach(function( ) {
+            timerCallback = jasmine.createSpy( 'timerCallback' );
+
+            obj = game.createObject( );
+        });
+
+        it( 'trigger start' , function( ) {
+            obj.action( 'testStart' , function( ) {
+                flag = true;
+
+                timerCallback( );
+            });
+            obj.action( 'testEnd' , function( ) { });
+
+            obj.trigger({
+                trigger : body ,
+                start   : 'testStart' ,
+                end     : 'testEnd' ,
+                ms      : function( ) { return 30; }
+            });
+
+            runs(function( ) {
+                flag = false;
+
+                triggerMouseEvent( body , 'mousedown' );
+
+                expect( timerCallback ).not.toHaveBeenCalled( );
+            });
+
+            waitsFor(function( ) { return flag; } , 'start callback didn\'t run' , 180 );
+
+            runs(function( ) { expect( timerCallback ).toHaveBeenCalled( ); });
+        });
+
+        it( 'trigger end' , function( ) {
+            obj.action( 'testStart' , function( ) { });
+            obj.action( 'testEnd' , function( ) {
+                flag = true;
+
+                timerCallback( );
+            });
+
+            obj.trigger({
+                trigger : body ,
+                start   : 'testStart' ,
+                end     : 'testEnd' ,
+                ms      : function( ) { return 30; }
+            });
+
+            runs(function( ) {
+                flag = false;
+
+                triggerMouseEvent( body , 'mouseup' );
+
+                expect( timerCallback ).not.toHaveBeenCalled( );
+            });
+
+            waitsFor(function( ) { return flag; } , 'end callback didn\'t run' , 240 );
+
+            runs(function( ) { expect( timerCallback ).toHaveBeenCalled( ); });
         });
     });
 })( );
