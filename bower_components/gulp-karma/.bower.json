@@ -1,0 +1,15 @@
+{
+  "name": "gulp-karma",
+  "homepage": "https://github.com/lazd/gulp-karma",
+  "version": "0.0.4",
+  "_release": "0.0.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.4",
+    "commit": "8854dd5587a2c5cfdf9beb9764969bca41a1da5a"
+  },
+  "_source": "git://github.com/lazd/gulp-karma.git",
+  "_target": "~0.0.4",
+  "_originalSource": "git://github.com/lazd/gulp-karma.git",
+  "_direct": true
+}

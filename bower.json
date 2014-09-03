@@ -20,5 +20,17 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "devDependencies": {
+    "gulp": "~3.8.7",
+    "gulp-concat": "git://github.com/wearefractal/gulp-concat.git#~2.3.4",
+    "gulp-jshint": "git://github.com/spenceralger/gulp-jshint.git#~1.5.1",
+    "gulp-karma": "git://github.com/lazd/gulp-karma.git#~0.0.4",
+    "gulp-rename": "git://github.com/hparra/gulp-rename.git#~1.2.0",
+    "gulp-uglify": "git://github.com/terinjokes/gulp-uglify.git#~1.0.1",
+    "karma": "git://github.com/karma-runner/karma.git#~0.12.23",
+    "karma-coverage": "git://github.com/karma-runner/karma-coverage.git#~0.2.6",
+    "karma-jasmine": "git://github.com/karma-runner/karma-jasmine.git#~0.2.2",
+    "karma-phantomjs-launcher": "git://github.com/karma-runner/karma-phantomjs-launcher.git#~0.1.4"
+  }
 }

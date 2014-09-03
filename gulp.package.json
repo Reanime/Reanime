@@ -4,7 +4,7 @@
   "description": "A light&flexible lib to create games in JS",
   "main": "lib/Game.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp karma"
   },
   "repository": {
     "type": "git",

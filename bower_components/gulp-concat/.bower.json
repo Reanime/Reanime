@@ -1,0 +1,15 @@
+{
+  "name": "gulp-concat",
+  "homepage": "https://github.com/wearefractal/gulp-concat",
+  "version": "2.3.4",
+  "_release": "2.3.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.3.4",
+    "commit": "e77c6fa2f8f980143d12d149dd8c36ae29c235c0"
+  },
+  "_source": "git://github.com/wearefractal/gulp-concat.git",
+  "_target": "~2.3.4",
+  "_originalSource": "git://github.com/wearefractal/gulp-concat.git",
+  "_direct": true
+}
