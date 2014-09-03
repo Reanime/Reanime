@@ -1,28 +1,26 @@
 (function( ) {
     'use strict';
 
-    var triggerKeyboardEvent = function( el , eventType , keyCode ) {
-        var eventObj = document.createEventObject ? document.createEventObject( ) : document.createEvent( 'Events' );
+    var triggerEvent = function( el , eventType , keyCode ) {
+        var eventObj;
 
-        if ( eventObj.initEvent ){ eventObj.initEvent( eventType , true , true ); }
+        try {
+            eventObj = new Event( eventType );
+        } catch ( e ) {
+            eventObj = document.createEvent( 'Event' );
+            eventObj.initEvent( eventType , true , false);
+        }
 
         if ( keyCode ) {
             eventObj.keyCode = keyCode;
             eventObj.which = keyCode;
         }
 
-        el.dispatchEvent ? el.dispatchEvent( eventObj ) : el.fireEvent( 'on' + eventType , eventObj ); 
-    };
-
-    var triggerMouseEvent = function( el , eventType ) {
-        var eventObj = document.createEvent( 'Events' );
-
-        eventObj.initEvent( eventType , true , false );
-
-        el.dispatchEvent( eventObj );
+        el.dispatchEvent ? el.dispatchEvent( eventObj ) : el.fireEvent( 'on' + eventType , eventObj );
     };
 
     var body = document.body;
+    var touch = 'ontouchstart' in window;
 
     describe( 'Testing Reanime\n\t' , function( ) {
         var game = new Reanime( );
@@ -102,7 +100,7 @@
             runs(function( ) {
                 flag = false;
 
-                triggerKeyboardEvent( window , 'keydown' , 16 );
+                triggerEvent( window , 'keydown' , 16 );
 
                 expect( timerCallback ).not.toHaveBeenCalled( );
             });
@@ -130,7 +128,7 @@
             runs(function( ) {
                 flag = false;
 
-                triggerKeyboardEvent( window , 'keyup' , 16 );
+                triggerEvent( window , 'keyup' , 16 );
 
                 expect( timerCallback ).not.toHaveBeenCalled( );
             });
@@ -172,7 +170,7 @@
             runs(function( ) {
                 flag = false;
 
-                triggerMouseEvent( body , 'mousedown' );
+                triggerEvent( body , touch ? 'touchstart' : 'mousedown' );
 
                 expect( timerCallback ).not.toHaveBeenCalled( );
             });
@@ -200,7 +198,7 @@
             runs(function( ) {
                 flag = false;
 
-                triggerMouseEvent( body , 'mouseup' );
+                triggerEvent( body , touch ? 'touchend' : 'mousedown' );
 
                 expect( timerCallback ).not.toHaveBeenCalled( );
             });

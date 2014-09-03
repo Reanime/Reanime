@@ -1,7 +1,7 @@
 {
   "name": "Reanime",
   "description": "A light&flexible lib to create games in JS",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "https://github.com/Reanime/Reanime",
   "author": {
     "name": "Anmo",

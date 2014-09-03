@@ -1,6 +1,6 @@
 {
   "name": "Reanime",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A light&flexible lib to create games in JS",
   "main": "lib/Game.js",
   "scripts": {
