@@ -39,8 +39,8 @@
                                 function( id ) {
                                     clearTimeout( id );
                                 };
-    var Reanime = function( ) {
-        return this.init( );
+    var Reanime = function( opt ) {
+        return this.init( opt );
     };
     Reanime.prototype = {
         init : function( ) {
@@ -128,33 +128,6 @@
             act.status = requestAnimationFrame( raf );
         } ,
 
-        trigger : function( obj , act ) {
-            var self = this;
-
-            var elem  = act.trigger;
-            var start = obj._actions[ act.start ];
-            var end   = obj._actions[ act.end ];
-            var ms    = act.ms;
-
-            if ( elem ) {
-                elem.addEventListener( this._start , function( e ) {
-                    if ( !start.status ) { self._raf( obj , start , ms ); }
-
-                    e.preventDefault( );
-                });
-
-                if ( end ) {
-                    elem.addEventListener( this._end , function( e ) {
-                        if ( !end.status ) { self._raf( obj , self._keyupWrapper( start , end ) , ms ); }
-
-                        e.preventDefault( );
-                    });
-                }
-            } else {
-                //this._raf( obj , start , ms );//this is really needed?
-            }
-        } ,
-
         createObject : function( ) { return this._Object.apply( this , [ this ].concat( arguments ) ); }
     };
 
@@ -185,8 +158,29 @@
 
             obj.ms = this._ms( obj.ms );
 
+            var trig  = obj.trigger;
+            var start = this._actions[ obj.start ];
+            var end   = this._actions[ obj.end ];
+
             if ( typeof obj.trigger !== 'number' || !( 'trigger' in obj ) ) {
-                this._game.trigger( this , obj );
+                var game = this._game;
+                var self = this;
+
+                var ms    = obj.ms;
+
+                var handler = this._startEvent( game , start , ms );
+
+                ( start.elems = start.elems || [ ] ).push( [ trig , game._start , handler ] );
+
+                trig.addEventListener( game._start , handler );
+
+                if ( end ) {
+                    handler = this._endEvent( game , start , end , ms );
+
+                    ( end.elems = end.elems || [ ] ).push( [ trig , game._end , handler ] );
+
+                    trig.addEventListener( game._end , handler );
+                }
 
                 return this;
             }
@@ -194,6 +188,64 @@
             ( this._game._triggers[ obj.trigger ] = this._game._triggers[ obj.trigger ] || [ ] ).push( [ this , obj ] );
 
             return this;
+        } ,
+
+        destroy : function( ) {
+            var i, l, o, t, a, k;
+
+            var g   = this._game;
+            var ts  = g._triggers;
+            var act = this._actions;
+
+            for ( i = 0, o = g._objects, l = o.length; i < l; i++ ) {
+                if ( o[ i ] === this ) {
+                    o.splice( i , 1 );
+
+                    break;
+                }
+            }
+
+            for ( k in ts ) {
+                if ( !ts.hasOwnProperty( k ) ) { continue; }
+
+                for ( i = 0, t = ts[ k ], l = t.length; i < l; i++ ) {
+                    if ( t[ i ][ 0 ] === this ) { t.splice( i , 1 ); }
+                }
+            }
+
+            for ( k in act ) {
+                if ( !act.hasOwnProperty( k ) ) { continue; }
+
+                for ( i = 0, a = act[ k ].elems, l = a && a.length; i < l; i++ ) {
+                    var e = a[ i ];
+
+                    e[ 0 ].removeEventListener( e[ 1 ] , e[ 2 ]);
+
+                    delete act[ k ];
+                }
+            }
+
+            delete this._actions;
+        } ,
+
+        _startEvent : function( game , start , ms ) {
+            var self = this;
+
+            return function( e ) {
+                if ( !start.status ) { game._raf( self , start , ms ); }
+
+                e.preventDefault( );
+            };
+        } ,
+
+        _endEvent : function( game , start , end , ms ) {
+            var self = this;
+
+            return function( e ) {
+                if ( !end.status ) { game._raf( self , game._keyupWrapper( start , end ) , ms ); }
+
+                e.preventDefault( );
+            };
         } ,
 
         _ms : function( ms ) {

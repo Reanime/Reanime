@@ -30,7 +30,7 @@
             expect( game instanceof Reanime ).toBe(true);
         });
 
-        it( 'create a object' , function( ) {
+        it( 'create an object' , function( ) {
             expect( ( obj = game.createObject( ) ) instanceof Reanime.prototype._Object ).toBe(true);
 
             expect( game._objects.length ).toBe( 1 );
@@ -56,8 +56,6 @@
         });
 
         it( 'create a trigger (elem)' , function( ) {
-            spyOn( game , 'trigger' ).andCallThrough( );
-
             obj.trigger({
                 trigger : body ,
                 start   : 'testStart' ,
@@ -65,7 +63,16 @@
                 ms      : 30
             });
 
-            expect( game.trigger ).toHaveBeenCalled( );
+            expect( 'elems' in obj._actions.testStart ).toBe( true );
+            expect( obj._actions.testStart.elems.length ).toBe( 1 );
+        });
+
+        it( 'destroy an object' , function( ) {
+            obj.destroy( );
+
+            expect( game._objects.length ).toBe( 0 );
+            expect( obj._actions ).toBe( undefined );
+            expect( game._triggers[ 16 ].length ).toBe( 0 );
         });
     });
 
@@ -105,7 +112,7 @@
                 expect( timerCallback ).not.toHaveBeenCalled( );
             });
 
-            waitsFor(function( ) { return flag; } , 'start callback didn\'t run' , 60 );
+            waitsFor(function( ) { return flag; } , 'start callback didn\'t run' , 200 );
 
             runs(function( ) { expect( timerCallback ).toHaveBeenCalled( ); });
         });
@@ -133,7 +140,7 @@
                 expect( timerCallback ).not.toHaveBeenCalled( );
             });
 
-            waitsFor(function( ) { return flag; } , 'end callback didn\'t run' , 120 );
+            waitsFor(function( ) { return flag; } , 'end callback didn\'t run' , 200 );
 
             runs(function( ) { expect( timerCallback ).toHaveBeenCalled( ); });
         });
@@ -175,7 +182,7 @@
                 expect( timerCallback ).not.toHaveBeenCalled( );
             });
 
-            waitsFor(function( ) { return flag; } , 'start callback didn\'t run' , 180 );
+            waitsFor(function( ) { return flag; } , 'start callback didn\'t run' , 200 );
 
             runs(function( ) { expect( timerCallback ).toHaveBeenCalled( ); });
         });
@@ -203,7 +210,7 @@
                 expect( timerCallback ).not.toHaveBeenCalled( );
             });
 
-            waitsFor(function( ) { return flag; } , 'end callback didn\'t run' , 240 );
+            waitsFor(function( ) { return flag; } , 'end callback didn\'t run' , 200 );
 
             runs(function( ) { expect( timerCallback ).toHaveBeenCalled( ); });
         });

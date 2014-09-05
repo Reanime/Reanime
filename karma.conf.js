@@ -28,6 +28,7 @@ module.exports = function(config) {
 
         // optionally, configure the reporter
         coverageReporter: {
+            merge : true ,
             type : 'html',
             dir  : 'reports/coverage/'
         }
